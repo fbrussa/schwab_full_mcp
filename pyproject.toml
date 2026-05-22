@@ -1,0 +1,18 @@
+[project]
+name = "schwab-mcp"
+version = "1.0.0"
+description = "MCP server exposing Charles Schwab APIs as tools via schwab-py"
+requires-python = ">=3.10"
+dependencies = [
+    "fastmcp>=2.0.0",
+    "schwab-py>=1.5.0",
+    "httpx",
+    "uvicorn",
+]
+
+[project.scripts]
+schwab-mcp = "schwab_mcp.server:main"
+
+[build-system]
+requires = ["hatchling"]
+build-backend = "hatchling.build"
