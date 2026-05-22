@@ -24,7 +24,25 @@ mcp.mount(market_data_mcp)
 
 
 def main():
-    mcp.run(transport="streamable-http", host="0.0.0.0", port=8000)
+    import argparse
+
+    parser = argparse.ArgumentParser(description="Schwab MCP Server")
+    parser.add_argument(
+        "--transport",
+        choices=["stdio", "streamable-http"],
+        default="stdio",
+        help="Transport mode (default: stdio for Claude Desktop, streamable-http for standalone)",
+    )
+    parser.add_argument("--host", default="0.0.0.0", help="HTTP host (default: 0.0.0.0)")
+    parser.add_argument("--port", type=int, default=8000, help="HTTP port (default: 8000)")
+    args = parser.parse_args()
+
+    kwargs = {}
+    if args.transport == "streamable-http":
+        kwargs["host"] = args.host
+        kwargs["port"] = args.port
+
+    mcp.run(transport=args.transport, **kwargs)
 
 
 if __name__ == "__main__":
